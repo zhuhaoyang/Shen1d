@@ -19,11 +19,61 @@
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
+    
+    //umeng
+    [MobClick startWithAppkey:@"4ffd153b5270157a21000054" reportPolicy:REALTIME channelId:nil];
+    
+    [WXApi registerApp:@"wx6839f836d352f67a"];
     self.viewController = [[ViewController alloc] initWithNibName:@"ViewController" bundle:nil];
     self.window.rootViewController = self.viewController;
     [self.window makeKeyAndVisible];
     return YES;
 }
+
+- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url
+{
+    return [WXApi handleOpenURL:url delegate:self];
+}
+
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
+{
+    return [WXApi handleOpenURL:url delegate:self];
+}
+
+-(void) onReq:(BaseReq*)req
+{
+    //    if([req isKindOfClass:[GetMessageFromWXReq class]])
+    //    {
+    //        [self onRequestAppMessage];
+    //    }
+    //    else if([req isKindOfClass:[ShowMessageFromWXReq class]])
+    //    {
+    //        ShowMessageFromWXReq* temp = (ShowMessageFromWXReq*)req;
+    //        [self onShowMediaMessage:temp.message];
+    //    }
+    
+}
+
+-(void) onResp:(BaseResp*)resp
+{
+    if([resp isKindOfClass:[SendMessageToWXResp class]])
+    {
+        NSString *strTitle = [NSString stringWithFormat:@"发送结果"];
+        NSString *strMsg = [NSString stringWithFormat:@"发送媒体消息结果:%d", resp.errCode];
+        
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:strTitle message:strMsg delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+        [alert show];
+    }
+    else if([resp isKindOfClass:[SendAuthResp class]])
+    {
+        NSString *strTitle = [NSString stringWithFormat:@"Auth结果"];
+        NSString *strMsg = [NSString stringWithFormat:@"Auth结果:%d", resp.errCode];
+        
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:strTitle message:strMsg delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+        [alert show];
+    }
+}
+
 
 - (void)applicationWillResignActive:(UIApplication *)application
 {

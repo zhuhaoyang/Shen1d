@@ -7,10 +7,21 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "serviceGetMyShops.h"
+#import "serviceDelMyShop.h"
+#import "Global.h"
+#import "DatabaseManager.h"
+#import "serviceGetShop.h"
+#import "CardViewController.h"
 @interface CarkPacksViewController : UIViewController
 <UITableViewDataSource,UITableViewDelegate>{
     UITableView *m_tableView;
-    NSMutableArray *arrCard;
+    NSMutableArray *arrMyShops;
+    serviceGetMyShops *m_serviceGetMyShops;
+    serviceDelMyShop *m_serviceDelMyShop;
+    UIButton *btEdit;
+    serviceGetShop *m_serviceGetShop;
+    CardViewController *m_CardViewController;
 }
 
 

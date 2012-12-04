@@ -35,7 +35,7 @@
         buttonsMutableArray = [[NSMutableArray alloc] init];
         self.cornerRadius = CORNER_RADIUS;
         self.buttonGradient = YES;
-        self.titleShadow = YES;
+        self.titleShadow = NO;
         self.titleColor = [UIColor whiteColor];
         self.titleShadowOffset = TITLE_SHADOW_OFFSET;
         self.titleShadowColor = [UIColor blackColor];
@@ -69,7 +69,7 @@
 - (void)addButtonWithTitle:(NSString *)title block:(void (^)())block 
 {
     [self addButtonWithTitle:title
-                       color:[UIColor grayColor]
+                       color:[UIColor colorWithRed:1 green:0.5882 blue:0 alpha:1]
                   titleColor:[UIColor whiteColor]
                  borderWidth:0
                  borderColor:[UIColor blackColor]
@@ -89,8 +89,8 @@
 - (void)cancelButtonWithTitle:(NSString *)title block:(void (^)())block
 {
     [self addButtonWithTitle:title
-                       color:[UIColor blackColor]
-                  titleColor:[UIColor whiteColor]
+                       color:[UIColor whiteColor]
+                  titleColor:[UIColor colorWithRed:0.47 green:0.47 blue:0.47 alpha:1]
                  borderWidth:0
                  borderColor:[UIColor blackColor]
                        block:block];
@@ -133,13 +133,13 @@
         UIColor *borderColor = [button objectAtIndex:5];
         
         UIImage *image = [self buttonImage:color borderWidth:borderWidth borderColor:borderColor];
-        
+//        UIImage *image = [UIImage imageNamed:@"2wm"];
         UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
         button.frame = CGRectMake(BORDER, buttonY, self.bounds.size.width-BORDER*2, buttonHeight);
-        button.titleLabel.font = [UIFont boldSystemFontOfSize:16];
-        button.titleLabel.minimumFontSize = 6;
+        button.titleLabel.font = [UIFont boldSystemFontOfSize:20];
+        button.titleLabel.minimumScaleFactor = 6;
         button.titleLabel.adjustsFontSizeToFitWidth = YES;
-        button.titleLabel.textAlignment = UITextAlignmentCenter;
+        button.titleLabel.textAlignment = NSTextAlignmentCenter;
         button.backgroundColor = [UIColor clearColor];
         button.tag = i++;
         
@@ -261,6 +261,7 @@
     UIGraphicsEndImageContext();
     
     
+//    return [UIImage imageNamed:@"2wm"];
     return output;
 }
 

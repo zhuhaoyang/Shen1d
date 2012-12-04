@@ -12,6 +12,7 @@
 @synthesize coordinate = _coordinate;
 @synthesize title = _title;
 @synthesize subtitle = _subtitle;
+@synthesize shopId = _shopId;
 //@synthesize delegate = _delegate;
 - (id) initWithCoordinate:(CLLocationCoordinate2D)temp_coordinate
 {
@@ -23,8 +24,10 @@
         NSLog(@"initWithCoordinate %f",self.coordinate.longitude);
 //        coordinate.latitude =  1;
 //        coordinate.longitude = 1;
-    }	
-	return  self;
+        return self;
+    }else{
+        return nil;
+    }
 }
 
 

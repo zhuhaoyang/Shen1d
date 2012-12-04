@@ -14,23 +14,101 @@
 
 @implementation MapViewController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+- (id)initWithNibName:(NSString *)nibNameOrNil shopName:(NSString *)shopName bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
+        
+        UILabel *title = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 200, 44)];
+        title.text = shopName;
+        title.textAlignment = NSTextAlignmentCenter;
+        title.textColor = [UIColor colorWithRed:0.88 green:0.42 blue:0 alpha:1];
+        title.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0];
+        title.font = [UIFont boldSystemFontOfSize:23];
+        self.navigationItem.titleView = title;
+        
+        UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        backButton.frame = CGRectMake(0, 0, 35, 30);
+        [backButton setBackgroundImage:[UIImage imageNamed:@"btn_back"] forState:UIControlStateNormal];
+        [backButton addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
+        UIBarButtonItem *liftButton = [[UIBarButtonItem alloc]initWithCustomView:backButton];
+        [self.navigationItem setLeftBarButtonItem:liftButton];
+
         m_CLLocationManager = [[CLLocationManager alloc]init];
         m_CLLocationManager.delegate = self;
         [m_CLLocationManager startUpdatingLocation];
+        
+        m_mapView = [[MKMapView alloc]initWithFrame:CGRectMake(0, 0, 320, 460-44)];
+        m_mapView.delegate = self;
+        m_mapView.mapType = MKMapTypeStandard;
+        m_mapView.showsUserLocation = YES;
+        
+//        MKCoordinateRegion viewRegion = MKCoordinateRegionMakeWithDistance(m_coordinate, 2000, 2000);
+//        MKCoordinateRegion adjustedRegion = [mapView regionThatFits:viewRegion];
+//        myAnnotation = [[Annotation alloc]initWithCoordinate:m_coordinate];
+//        [myAnnotation setDelegate:self];
+//        myAnnotation.title = m_shopName;
+//        [mapView setRegion:adjustedRegion animated:YES];
+//        [mapView addAnnotation:myAnnotation];
+        
+        [self.view addSubview:m_mapView];
+        
+    }
+    return self;
+}
 
-        mapView = [[MKMapView alloc]initWithFrame:CGRectMake(0, 0, 320, 460-44-49)];
-        mapView.delegate = self;
-        mapView.mapType = MKMapTypeStandard;
-        mapView.showsUserLocation = YES;
-        [self.view addSubview:mapView];
+
+- (id)initWithNibName:(NSString *)nibNameOrNil coordinate:(CLLocationCoordinate2D)coordinate shopName:(NSString *)shopName bundle:(NSBundle *)nibBundleOrNil;
+{
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self) {
+        // Custom initialization
+//        self.title = shopName;
+        UILabel *title = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 200, 44)];
+        title.text = shopName;
+        title.textAlignment = NSTextAlignmentCenter;
+        title.textColor = [UIColor colorWithRed:1 green:0.5882 blue:0 alpha:1];
+        title.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0];
+        title.font = [UIFont boldSystemFontOfSize:23];
+        self.navigationItem.titleView = title;
+        m_shopName = shopName;
+        m_coordinate = coordinate;
+        
+        UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        backButton.frame = CGRectMake(0, 0, 35, 30);
+        [backButton setBackgroundImage:[UIImage imageNamed:@"btn_back"] forState:UIControlStateNormal];
+        [backButton addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
+        UIBarButtonItem *liftButton = [[UIBarButtonItem alloc]initWithCustomView:backButton];
+        [self.navigationItem setLeftBarButtonItem:liftButton];
+
+        
+        m_CLLocationManager = [[CLLocationManager alloc]init];
+        m_CLLocationManager.delegate = self;
+//        [m_CLLocationManager startUpdatingLocation];
+
+        m_mapView = [[MKMapView alloc]initWithFrame:CGRectMake(0, 0, 320, 460-44)];
+        m_mapView.delegate = self;
+        m_mapView.mapType = MKMapTypeStandard;
+        m_mapView.showsUserLocation = NO;
+        
+        MKCoordinateRegion viewRegion = MKCoordinateRegionMakeWithDistance(m_coordinate, 2000, 2000);
+        MKCoordinateRegion adjustedRegion = [m_mapView regionThatFits:viewRegion];
+        myAnnotation = [[Annotation alloc]initWithCoordinate:m_coordinate];
+        [myAnnotation setDelegate:self];
+        myAnnotation.title = m_shopName;
+        [m_mapView setRegion:adjustedRegion animated:YES];
+        [m_mapView addAnnotation:myAnnotation];
+
+        [self.view addSubview:m_mapView];
 
     }
     return self;
+}
+
+- (void)back
+{
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (void)viewDidLoad
@@ -78,16 +156,14 @@
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation
 {
-    if (mapView.userLocationVisible == 1) {
+    if (m_mapView.userLocationVisible == 1) {
         [m_CLLocationManager stopUpdatingLocation];
-        CLLocationCoordinate2D test;
-        test.latitude = 30.273699;
-        test.longitude = 120.136753;
-
+                
+        
 //        NSLog(@"userLocationVisible = %i",mapView.userLocationVisible);
         //        NSLog(@"%@",coords);
-        MKCoordinateRegion viewRegion = MKCoordinateRegionMakeWithDistance(test, 2000, 2000);
-        MKCoordinateRegion adjustedRegion = [mapView regionThatFits:viewRegion];
+        MKCoordinateRegion viewRegion = MKCoordinateRegionMakeWithDistance(m_CLLocationManager.location.coordinate, 2000, 2000);
+        MKCoordinateRegion adjustedRegion = [m_mapView regionThatFits:viewRegion];
         
         //        Annotation *annotation = [[Annotation alloc]initWithCoordinate:self.mapView.userLocation.location.coordinate];
         //        [self.mapView addAnnotation:annotation];
@@ -99,13 +175,63 @@
         //        [self.mapView addAnnotation:annotation];/Users/jy01902848/Desktop/starbucks_001.png
         
         
-        myAnnotation = [[Annotation alloc]initWithCoordinate:test];
-        [myAnnotation setDelegate:self];
-        myAnnotation.title = @"锦亭酒楼";
-        [mapView setRegion:adjustedRegion animated:YES];
-        [mapView addAnnotation:myAnnotation];
+//        myAnnotation = [[Annotation alloc]initWithCoordinate:m_CLLocationManager.location.coordinate];
+//        [myAnnotation setDelegate:self];
+//        myAnnotation.title = @"当前位置";
+        [m_mapView setRegion:adjustedRegion animated:YES];
+//        [m_mapView addAnnotation:myAnnotation];
     }
 }
 
+- (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id < MKAnnotation >)annotation
+{
+	//判断是否是自己
+    
+    if (![annotation isKindOfClass:[Annotation class]])
+	{
+        Annotation * m_annotation = annotation;
+        m_annotation.title=@"当前位置";
+        return  nil;
+
+	}else
+	{
+        MKAnnotationView *view;
+        view = (MKAnnotationView *)[m_mapView  dequeueReusableAnnotationViewWithIdentifier:annotation.title];
+		
+		
+		if (view==nil)
+		{
+			view = [[MKAnnotationView  alloc] initWithAnnotation:annotation reuseIdentifier:annotation.title];
+		}
+		else
+		{
+			view.annotation=annotation;
+		}
+		
+		
+		//设置图标
+//        Annotation * m_annotation = annotation;
+		[view   setImage:[UIImage  imageNamed:@"pin"] ];
+        view.frame = CGRectMake(0, 0, 20, 40);
+        //        UIView *leftView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 50, 50)];
+        
+        //        UIImageView *leftImage = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"starbucks_03"]];
+        //        leftImage.frame = CGRectMake(0, 0, 30, 30);
+        
+//        UIButton *rightButton = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
+//        [rightButton addTarget:self action:@selector(clickedBt:) forControlEvents:UIControlEventTouchUpInside];
+//        rightButton.tag = [m_annotation.shopId integerValue];
+//        view.centerOffset = CGPointMake(0, -17.5);
+//        
+//        //        view.leftCalloutAccessoryView = leftImage;
+//        view.rightCalloutAccessoryView = rightButton;
+		view.canShowCallout = YES;
+//        view.isSelected = YES;
+		return   view;
+        
+	}
+
+
+}
 
 @end

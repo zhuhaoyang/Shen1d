@@ -12,8 +12,6 @@ static Global *instance = nil;
 
 
 @implementation Global
-@synthesize dicShopCart = _dicShopCart;
-@synthesize arrOrder = _arrOrder;
 
 
 - (id)init
@@ -21,15 +19,15 @@ static Global *instance = nil;
 	self = [super init];
 	if (self)
 	{
-        self.dicShopCart = [[NSMutableDictionary alloc]init];
-        self.arrOrder = [[NSMutableArray alloc]init];
+//        self.userId = @"7";
+        self.isLogined = NO;
     }
 	return self;
 }
 
 //- (void)dealloc
 //{
-//    [documentPath release];
+////    [documentPath release];
 //	[super dealloc];
 //}
 

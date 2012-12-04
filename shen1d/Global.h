@@ -9,13 +9,18 @@
 #import <Foundation/Foundation.h>
 
 @interface Global : NSObject{
-
-    NSMutableDictionary *dicShopCart;
     NSMutableArray *arrOrder;
 }
+@property (nonatomic,assign) BOOL isLogined;
+@property (nonatomic,strong) NSString *userId;
+@property (nonatomic,strong) NSString *email;
+@property (nonatomic,strong) NSString *password;
+@property (nonatomic,strong) NSString *uname;
+@property (nonatomic,strong) NSString *phone;
+@property (nonatomic,strong) NSString *created;
+@property (nonatomic,strong) NSString *avatar;
 
-@property(nonatomic,strong) NSMutableDictionary *dicShopCart;
-@property(nonatomic,strong) NSMutableArray *arrOrder;
+@property (nonatomic,strong) UIImage *qrcode;
 + (Global *) sharedGlobal;
 
 @end

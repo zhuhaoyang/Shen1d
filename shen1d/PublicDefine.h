@@ -32,24 +32,34 @@ object = nil;\
 #define kTimeOutDuration 20
 
 
-#define TableNameAllBookData @"AllBookData_Table"
-#define TableNameAllBookMark @"AllBookMark_Table"
-#define TableNameAPPSet @"APPSet_Table"
-#define TableNameBookShelf @"BookShelf_Table"
+#define TableNamePersonalInfo @"PersonalInfo_Table"
+#define TableNameMyShops @"MyShops_Table"
+#define TableNameShopDetails @"ShopDetails_Table"
 
-#define kTableFormatAllBookData @"name text, lastReadTime text, lastReadOffset text, fontSize text, bookShelf text"
-#define kTableFormatAllBookMark @"id text, name text, offset text, fontSize text"
-#define kTableFormatAPPSet @"APPName text, isOpenStartupLoge text, skinName text, isLeachBlankRow text, isAutoTransverse text,isTurnPagePreservingOneRow, userName text, password text, defaultAddress text"
-#define kTableFormatBookShelf @"bookShelf text"
+#define kTableFormatPersonalInfo @"userId text, email text, password text, uname text, phone text, created text, qrcode blob"
+#define kTableFormatMyShops @"shopId text, cardType text, shopName text, images blob"
+#define kTableFormatShopDetails @"shopId text, province text, city text, latitude text, longitude text, shopName text, format_addr text, area text, level text, created text, cId text, uname text, address text, contact_name text, password text, contact_phone text, images blob"
+
 
 #define SQL_CREATE_TABLE @"CREATE TABLE %@ (%@)"// Table Name, Table Format
-
 #define SQL_DELETE_ALL_FROM_TABLE @"DELETE FROM %@"// Table Name
+#define SQL_QUERY_DATA_IF_EXIST @"SELECT * FROM %@ WHERE %@ = ?"// Table Name, attribute name
+
+#define SQL_INSERT_PERSONAL_INFO_TABLE @"INSERT INTO %@ (%@) VALUES (?,?,?,?,?,?,?)"// Table Name, attribute name
+#define SQL_QUERY_DATA_IF_EXIST @"SELECT * FROM %@ WHERE %@ = ?"// Table Name, attribute name
+#define SQL_QUERY_PERSONAL_INFO_FROM_TABLE @"SELECT * FROM %@"// Table Name
+
+#define SQL_INSERT_MYSHOPS_INFO_TABLE @"INSERT INTO %@ (%@) VALUES (?,?,?,?)"// Table Name, attribute name
+#define SQL_QUERY_MYSHOPS_INFO_FROM_TABLE @"SELECT * FROM %@"// Table Name
+
+#define SQL_INSERT_ShopDetails_INFO_TABLE @"INSERT INTO %@ (%@) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"// Table Name, attribute name
+#define SQL_QUERY_ShopDetails_INFO_FROM_TABLE @"SELECT * FROM %@ WHERE %@ = ?"// Table Name, attribute name
+
+
 #define SQL_DELETE_BOOKSHELF @"DELETE FROM BookShelf_Table WHERE bookShelf = ?"
 #define SQL_DELETE_BOOK @"DELETE FROM AllBookData_Table WHERE %@ = ?"
 #define SQL_DELETE_BOOKMARK @"DELETE FROM AllBookMark_Table WHERE id = ?"
 
-#define SQL_QUERY_DATA_IF_EXIST @"SELECT * FROM %@ WHERE %@ = ?"// Table Name, attribute name
 #define SQL_QUERY_ALL_FROM_TABLE @"SELECT * FROM %@"// Table Name
 #define SQL_QUERY_BOOKDATA_FROM_TABLE @"SELECT * FROM %@ WHERE %@ = ?"// Table Name, attribute name
 #define SQL_QUERY_APPSET_FROM_TABLE @"SELECT * FROM APPSet_Table WHERE APPName = ?"

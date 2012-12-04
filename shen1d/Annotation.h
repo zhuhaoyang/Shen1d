@@ -15,13 +15,15 @@
 	NSString  *title;
 	NSString  *subtitle;
 	id delegate;
-    NSString *str;
+    NSString *shopId;
     //自己定义的其他信息成员
 }
 
 @property (nonatomic,assign)  CLLocationCoordinate2D  coordinate;
 @property (nonatomic,strong) NSString *title;
 @property (nonatomic,strong) NSString *subtitle;
+@property (nonatomic,strong) NSString *shopId;
+
 //@property (nonatomic,weak) id delegate;
 
 - (id) initWithCoordinate:(CLLocationCoordinate2D)temp_coordinate;

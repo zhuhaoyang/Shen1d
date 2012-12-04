@@ -30,15 +30,15 @@
     [self moveToTargetPosition:targetX];
       
     
-    LOGS(@"%d",pageControl.currentPage);
+//    LOGS(@"%d",pageControl.currentPage);
 
     
-    [self performSelector:@selector(switchFocusImageItems) withObject:nil afterDelay:5];
+//    [self performSelector:@selector(switchFocusImageItems) withObject:nil afterDelay:5];
 }
 
 - (void)moveToTargetPosition:(CGFloat)targetX
 {
-    LOGS(@"moveToTargetPosition : %f" , targetX);
+//    LOGS(@"moveToTargetPosition : %f" , targetX);
     if (targetX >= scrollView.contentSize.width) {
         targetX = 0.0;
     }
@@ -54,9 +54,10 @@
 		self.dataSource = m_dataSource;
         // Initialization UIScrollView
 		int pageControlHeight = 20;
-		scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];
-		pageControl = [[UIPageControl alloc] initWithFrame:CGRectMake(0, frame.size.height - pageControlHeight, frame.size.width, pageControlHeight)];
-		pageControl.alpha = 0;// backgroundColor = [UIColor whiteColor];
+		scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height-6)];
+		pageControl = [[UIPageControl alloc] initWithFrame:CGRectMake(0, frame.size.height-pageControlHeight-6, frame.size.width, pageControlHeight)];
+//		pageControl.alpha = 0;
+//        pageControl.backgroundColor = [UIColor redColor];
 		[self addSubview:scrollView];
 		[self addSubview:pageControl];
 		
@@ -79,14 +80,17 @@
 		
 		pageControl.numberOfPages = kNumberOfPages;
 		pageControl.currentPage = 0;
-		pageControl.backgroundColor = [UIColor blackColor];
+//		pageControl.backgroundColor = [UIColor blackColor];
+//        pageControl.alpha = 1;
+//        pageControl.pageIndicatorTintColor = [UIColor whiteColor];
+//        pageControl.currentPageIndicatorTintColor = [UIColor blackColor];
 		
 		// pages are created on demand
 		// load the visible page
 		// load the page on either side to avoid flashes when the user starts scrolling
 		[self loadScrollViewWithPage:0];
 		[self loadScrollViewWithPage:1];
-        [self performSelector:@selector(switchFocusImageItems) withObject:nil afterDelay:5];
+//        [self performSelector:@selector(switchFocusImageItems) withObject:nil afterDelay:5];
 
 		
     }
@@ -110,6 +114,7 @@
         view = [UIButton buttonWithType:UIButtonTypeCustom];
         [view setBackgroundImage:image forState:UIControlStateNormal];
         [view addTarget:self action:@selector(clicked:) forControlEvents:UIControlEventTouchUpInside];
+        view.tag = page;
         view.adjustsImageWhenHighlighted = NO;
         [imageViews replaceObjectAtIndex:page withObject:view];
     }

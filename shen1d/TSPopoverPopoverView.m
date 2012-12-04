@@ -27,6 +27,7 @@
     if(self){
         self.backgroundColor = [UIColor clearColor];
         self.baseColor = [UIColor blackColor];
+//[UIColor blackColor];
         self.isGradient = YES;
     }
     return self;
@@ -42,7 +43,7 @@
 -(UIImage*)backgroundImage
 {
     //// Color
-    CGFloat myRed=0,myGreen=0,myBlue=0,myWhite=0,alpha=1;
+    CGFloat myRed=0.46875,myGreen=0.46875,myBlue=0.46875,myWhite=0.46875,alpha=1;
     UIColor *gradientBaseColor = self.baseColor;
     UIColor* gradientTopColor;
     UIColor* gradientMiddleColor;
@@ -200,6 +201,7 @@
     
    
     return output;
+//    return [UIImage imageNamed:@"2wm"];
 }
 
 @end

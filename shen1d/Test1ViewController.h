@@ -8,15 +8,15 @@
 
 
 #import <UIKit/UIKit.h>
-#import "AZGenieView.h"
+//#import "AZGenieView.h"
 #import "PublicDefine.h"
-#import "SBJson.h"
+//#import "SBJson.h"
 
-@interface Test1ViewController : UIViewController <AZGenieAnimationDelegate>{
+@interface Test1ViewController : UIViewController {
     UIButton *bt;
 //    UIButton *flowerView;
     NSTimer *timer;
-    AZGenieView *genieView;
+//    AZGenieView *genieView;
 }
 //@property (strong, nonatomic) IBOutlet AZGenieView *genieView;
 

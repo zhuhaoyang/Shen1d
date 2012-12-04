@@ -12,26 +12,34 @@
 #import "FindViewController.h"
 #import "CarkPacksViewController.h"
 #import "TrendsViewController.h"
-#import "MyViewController.h"
+//#import "MyViewController.h"
 
 #import "PublicDefine.h"
-
+#import "Global.h"
 #import "CouponViewController.h"
 #import "AroundViewController.h"
 #import "Test1ViewController.h"
+#import "LoginViewController.h"
 
+#import "DatabaseManager.h"
+#import "QRCodeGenerator.h"
 @interface ViewController : UIViewController<UITabBarControllerDelegate>{
     NSTimer *timer;
     UIImageView *startLoge;
     UITabBarController *tabBar;
+    LoginViewController *m_LoginViewController;
+    DatabaseManager *dbManager;
+    UIImageView *backGround;
 }
 
-@property(nonatomic,strong) NSTimer *timer;
-@property(nonatomic,strong) UIImageView *startLoge;
-@property(nonatomic,strong) UITabBarController *tabBar;
+//@property(nonatomic,strong) NSTimer *timer;
+//@property(nonatomic,strong) UIImageView *startLoge;
+//@property(nonatomic,strong) UITabBarController *tabBar;
 
 - (void)fadeScreen;
 - (void)finishedFading;
 - (void)showMain;
 
 @end
+
+

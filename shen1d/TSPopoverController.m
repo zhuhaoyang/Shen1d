@@ -157,7 +157,7 @@
         titleLabel.textColor = self.titleColor;
         titleLabel.text = self.titleText;
         titleLabel.backgroundColor = [UIColor clearColor];
-        titleLabel.textAlignment = UITextAlignmentCenter;
+        titleLabel.textAlignment = NSTextAlignmentCenter;
         titleLabel.font = self.titleFont;
     }
     contentViewFrame.origin.x = backgroundPositionX+MARGIN;
@@ -176,7 +176,7 @@
     popoverView.alpha = 0;
     popoverView.frame = [self popoverFrameRect:contentViewFrame senderPoint:senderPoint];
     popoverView.cornerRadius = self.cornerRadius;
-    popoverView.baseColor = [UIColor blackColor];//self.popoverBaseColor;
+    popoverView.baseColor = self.popoverBaseColor;
     NSLog(@"%@",self);
     NSLog(@"%@",self.popoverBaseColor);
     NSLog(@"%@",popoverView.baseColor);

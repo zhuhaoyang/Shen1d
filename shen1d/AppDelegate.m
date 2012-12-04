@@ -9,7 +9,7 @@
 #import "AppDelegate.h"
 
 #import "ViewController.h"
-
+#import "SinaWeibo.h"
 @implementation AppDelegate
 
 @synthesize window = _window;
@@ -20,24 +20,66 @@
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
     
-    //umeng
-    [MobClick startWithAppkey:@"4ffd153b5270157a21000054" reportPolicy:REALTIME channelId:nil];
-    
-    [WXApi registerApp:@"wx6839f836d352f67a"];
     self.viewController = [[ViewController alloc] initWithNibName:@"ViewController" bundle:nil];
     self.window.rootViewController = self.viewController;
     [self.window makeKeyAndVisible];
+    //umeng
+    [MobClick startWithAppkey:@"4ffd153b5270157a21000054" reportPolicy:REALTIME channelId:nil];
+    //weixin
+    [WXApi registerApp:@"wx6839f836d352f67a"];
+    
+    //push
+    [[UIApplication sharedApplication] registerForRemoteNotificationTypes:(UIRemoteNotificationTypeAlert | UIRemoteNotificationTypeBadge |UIRemoteNotificationTypeSound)];
+
+    //weibo
+    self.sinaweibo = [[SinaWeibo alloc] initWithAppKey:kAppKey appSecret:kAppSecret appRedirectURI:kAppRedirectURI andDelegate:_viewController];
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSDictionary *sinaweiboInfo = [defaults objectForKey:@"SinaWeiboAuthData"];
+    if ([sinaweiboInfo objectForKey:@"AccessTokenKey"] && [sinaweiboInfo objectForKey:@"ExpirationDateKey"] && [sinaweiboInfo objectForKey:@"UserIDKey"])
+    {
+        self.sinaweibo.accessToken = [sinaweiboInfo objectForKey:@"AccessTokenKey"];
+        self.sinaweibo.expirationDate = [sinaweiboInfo objectForKey:@"ExpirationDateKey"];
+        self.sinaweibo.userID = [sinaweiboInfo objectForKey:@"UserIDKey"];
+    }
+    
     return YES;
 }
 
 - (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url
 {
-    return [WXApi handleOpenURL:url delegate:self];
+
+    return [self.sinaweibo handleOpenURL:url]||[WXApi handleOpenURL:url delegate:self];
+}
+
+
+- (void)applicationDidFinishLaunching:(UIApplication *)app {
+    // other setup tasks here….
+    [self.window addSubview:self.viewController.view];
+    [self alertNotice:@"" withMSG:@"Initiating Remote Noticationss Are Active" cancleButtonTitle:@"Ok" otherButtonTitle:@""];
+    [[UIApplication sharedApplication] registerForRemoteNotificationTypes:(UIRemoteNotificationTypeAlert | UIRemoteNotificationTypeBadge |UIRemoteNotificationTypeSound)];
+    
+}
+- (void)application:(UIApplication *)app didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
+    NSLog(@"devToken=%@",deviceToken);
+//    [self alertNotice:@"" withMSG:[NSString stringWithFormat:@"devToken=%@",deviceToken] cancleButtonTitle:@"Ok" otherButtonTitle:@""];
+}
+- (void)application:(UIApplication *)app didFailToRegisterForRemoteNotificationsWithError:(NSError *)err {
+    NSLog(@"Error in registration. Error: %@", err);
+    [self alertNotice:@"" withMSG:[NSString stringWithFormat:@"Error in registration. Error: %@", err] cancleButtonTitle:@"Ok" otherButtonTitle:@""];
+}
+-(void)alertNotice:(NSString *)title withMSG:(NSString *)msg cancleButtonTitle:(NSString *)cancleTitle otherButtonTitle:(NSString *)otherTitle{
+    UIAlertView *alert;
+    if([otherTitle isEqualToString:@""])
+        alert = [[UIAlertView alloc] initWithTitle:title message:msg delegate:self cancelButtonTitle:cancleTitle otherButtonTitles:nil,nil];
+    else
+        alert = [[UIAlertView alloc] initWithTitle:title message:msg delegate:self cancelButtonTitle:cancleTitle otherButtonTitles:otherTitle,nil];
+    [alert show];
+//    [alert release];
 }
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
 {
-    return [WXApi handleOpenURL:url delegate:self];
+    return [self.sinaweibo handleOpenURL:url]||[WXApi handleOpenURL:url delegate:self];
 }
 
 -(void) onReq:(BaseReq*)req
@@ -90,11 +132,15 @@
 - (void)applicationWillEnterForeground:(UIApplication *)application
 {
     // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
+
+    [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+    [self.sinaweibo applicationDidBecomeActive];
+
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application

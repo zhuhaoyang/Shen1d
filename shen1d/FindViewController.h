@@ -12,13 +12,15 @@
 #import "MapViewController.h"
 #import <MapKit/MapKit.h>
 #import "Annotation.h"
-
-
+#import "serviceGoogleMap.h"
+#import "SVGeocoder.h"
+#import "serviceGetShops.h"
+#import "serviceGetShop.h"
 @interface FindViewController : UIViewController
 <SearchViewDelegate,UITableViewDataSource,UITableViewDelegate,
 MKMapViewDelegate,CLLocationManagerDelegate,MKAnnotation>
 {
-    MKMapView * mapView;
+    MKMapView * m_mapView;
     CLLocationManager *m_CLLocationManager;
     Annotation *myAnnotation;
 
@@ -29,5 +31,12 @@ MKMapViewDelegate,CLLocationManagerDelegate,MKAnnotation>
     NSMutableArray *arrBusinesses;
     
     CardViewController *m_CardViewController;
+    SVPlacemark *placemark;
+    UIButton *btMap;
+    
+    serviceGetShops *m_serviceGetShops;
+    serviceGetShop *m_serviceGetShop;
+    
+    UILabel *label;
 }
 @end

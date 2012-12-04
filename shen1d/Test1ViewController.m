@@ -216,25 +216,25 @@
     NSLog(@"test 开始运行");
     NSString * customerGridJsonString = [[NSString alloc]initWithFormat:@"{\"customer\":[{\"name\":\"roamer\",\"ycount\":\"232.4\",\"sumcount\":\"322.3\"},{\"name\":\"王三\",\"ycount\":\"221.2\",\"sumcount\":\"1123.2\"},{\"name\":\"李四\",\"ycount\":\"1221.2\",\"sumcount\":\"12123.2\"}]}"];
     
-    SBJsonParser * parser = [[SBJsonParser alloc] init];
+//    SBJsonParser * parser = [[SBJsonParser alloc] init];
     NSLog(@"%@",customerGridJsonString);
-    NSError * error = nil;
+//    NSError * error = nil;
     
-    NSMutableDictionary *root = [[NSMutableDictionary alloc] initWithDictionary:[parser objectWithString:customerGridJsonString error:&error]];
-    NSLog(@"root = %@",root);
+//    NSMutableDictionary *root = [[NSMutableDictionary alloc] initWithDictionary:[parser objectWithString:customerGridJsonString error:&error]];
+//    NSLog(@"root = %@",root);
     //注意转换代码
-    SBJsonWriter *jsonWriter = [[SBJsonWriter alloc] init];
+//    SBJsonWriter *jsonWriter = [[SBJsonWriter alloc] init];
     
-    NSString *jsonString = [jsonWriter stringWithObject:root];
+//    NSString *jsonString = [jsonWriter stringWithObject:root];
     
 //    [jsonWriter release];    NSLog(@"%@",jsonString);
     //注意转换代码
-    NSMutableArray * customers = [root objectForKey:@"customer"];
-    NSLog(@"%@",customers);
-    for(NSMutableDictionary * member  in customers)
-    {
-        NSLog(@"%@",[member objectForKey:@"name"]);
-    }
+//    NSMutableArray * customers = [root objectForKey:@"customer"];
+//    NSLog(@"%@",customers);
+//    for(NSMutableDictionary * member  in customers)
+//    {
+//        NSLog(@"%@",[member objectForKey:@"name"]);
+//    }
 }
 
 @end

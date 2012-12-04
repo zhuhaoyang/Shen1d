@@ -21,7 +21,7 @@
         self.searchTextField = [[UITextField  alloc] initWithFrame:CGRectMake(0,7, frame.size.width, 25)];
 		self.searchTextField.borderStyle = UITextBorderStyleRoundedRect;
         self.searchTextField.bounds = CGRectMake(0, 0, frame.size.width - 20, 31);
-        self.searchTextField.returnKeyType = UIReturnKeyRoute;
+        self.searchTextField.returnKeyType = UIReturnKeySearch;
         self.searchTextField.layer.cornerRadius = 10.0;
         self.searchTextField.layer.borderColor = [UIColor darkGrayColor].CGColor;
         self.searchTextField.layer.borderWidth = 1.0;
